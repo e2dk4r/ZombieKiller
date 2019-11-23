@@ -2,13 +2,102 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Movement
+{
+    Left,
+    Right,
+    Up,
+    Down
+}
+
 public class Enemy : MonoBehaviour
 {
     public Transform player;
     public float speed = 2.0f;
+    public float stopBetweenMoves = 1.0f;
+    public float seeRange = 3.0f;
+    public float moveRange = 5f;
+
+    private Vector3 moveTo;
+    private bool moving = false;
+    private float[] moveRangeArray = new float[4];
+    Rigidbody2D body;
+
+    void Awake() {
+        body = GetComponent<Rigidbody2D>();
+    }
+
+    void Start() {
+        CalculateMoveRange();
+    }
+
+    void CalculateMoveRange() {
+        moveRangeArray[(int)Movement.Left] = transform.position.x - moveRange;
+        moveRangeArray[(int)Movement.Right] = transform.position.x + moveRange;
+        moveRangeArray[(int)Movement.Up] = transform.position.y + moveRange;
+        moveRangeArray[(int)Movement.Down] = transform.position.y - moveRange;
+    }
 
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+        if (IsPlayerSeen()) {
+            FollowPlayer();
+            CalculateMoveRange();
+        } else {
+            if (!moving) {
+                CalculateRandomMovement();
+            } else
+                body.MovePosition(Vector2.MoveTowards(transform.position, moveTo, speed * Time.deltaTime));
+
+            if (transform.position == moveTo) {
+                moving = false;
+                StartCoroutine(WaitForNextMove());
+            }
+        }
+    }
+
+    bool IsPlayerSeen() {
+        return Vector3.Distance(transform.position, player.position) <= seeRange;
+    }
+
+    void CalculateRandomMovement() {
+        moveTo = Vector3.zero;
+
+        if (transform.position.x >= moveRangeArray[(int)Movement.Right])
+            moveTo = transform.position + Vector3.left;
+        if (transform.position.x <= moveRangeArray[(int)Movement.Left])
+            moveTo = transform.position + Vector3.right;
+        if (transform.position.y >= moveRangeArray[(int)Movement.Up])
+            moveTo = transform.position + Vector3.down;
+        if (transform.position.y <= moveRangeArray[(int)Movement.Down])
+            moveTo = transform.position + Vector3.up;
+
+        if (moveTo == Vector3.zero)
+            moveTo = (transform.position + RandomDirection());
+
+        moving = true;
+    }
+
+    IEnumerator WaitForNextMove() {
+        yield return new WaitForSeconds(stopBetweenMoves);
+    }
+
+    private Vector3 RandomDirection() {
+        Movement movement = (Movement)Random.Range(0, 4);
+
+        if (movement == Movement.Left)
+            return Vector3.left;
+        if (movement == Movement.Right)
+            return Vector3.right;
+        if (movement == Movement.Up)
+            return Vector3.up;
+        if (movement == Movement.Down)
+            return Vector3.down;
+
+        return Vector3.zero;
+    }
+
+    private void FollowPlayer() {
+        body.MovePosition(Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime));
     }
 }
