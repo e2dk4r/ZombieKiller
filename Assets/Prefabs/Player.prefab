@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6011735952576097651}
   - component: {fileID: 6011735952576097652}
   - component: {fileID: 6011735952576097653}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -13206489
+  m_SortingLayerID: 1413599387
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8b7dd91cf29ee4a4a80d8983968b2ab1, type: 3}
@@ -163,3 +163,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  projectilePrefab: {fileID: 5867183898417995629, guid: 9ded49bbd7fd43f489aa765ee574c2da,
+    type: 3}
