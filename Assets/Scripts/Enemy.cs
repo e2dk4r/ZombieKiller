@@ -12,6 +12,7 @@ public enum Movement
 
 public class Enemy : MonoBehaviour
 {
+    public int health = 3;
     public Transform player;
     public float speed = 2.0f;
     public float seeRange = 3.0f;
@@ -24,16 +25,19 @@ public class Enemy : MonoBehaviour
     Animator animator;
     Rigidbody2D body;
 
-    void Awake() {
+    void Awake()
+    {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
-    void Start() {
+    void Start()
+    {
         CalculateMoveRange();
     }
 
-    void CalculateMoveRange() {
+    void CalculateMoveRange()
+    {
         moveRangeArray[(int)Movement.Left] = transform.position.x - moveRange;
         moveRangeArray[(int)Movement.Right] = transform.position.x + moveRange;
         moveRangeArray[(int)Movement.Up] = transform.position.y + moveRange;
@@ -42,7 +46,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (IsPlayerSeen()) {
+        if (IsPlayerSeen())
+        {
             FollowPlayer();
             CalculateMoveRange();
 
@@ -50,8 +55,11 @@ public class Enemy : MonoBehaviour
             diff.Normalize();
             animator.SetFloat("Look X", diff.x);
             animator.SetFloat("Look Y", diff.y);
-        } else {
-            if (transform.position == moveTo) {
+        }
+        else
+        {
+            if (transform.position == moveTo)
+            {
                 moving = false;
             }
 
@@ -68,11 +76,13 @@ public class Enemy : MonoBehaviour
 
     }
 
-    bool IsPlayerSeen() {
+    bool IsPlayerSeen()
+    {
         return Vector3.Distance(transform.position, player.position) <= seeRange;
     }
 
-    void CalculateRandomMovement() {
+    void CalculateRandomMovement()
+    {
         moveTo = Vector3.zero;
 
         if (transform.position.x >= moveRangeArray[(int)Movement.Right])
@@ -90,7 +100,8 @@ public class Enemy : MonoBehaviour
         moving = true;
     }
 
-    private Vector3 RandomDirection() {
+    private Vector3 RandomDirection()
+    {
         Movement movement = (Movement)Random.Range(0, 4);
 
         if (movement == Movement.Left)
@@ -105,7 +116,15 @@ public class Enemy : MonoBehaviour
         return Vector3.zero;
     }
 
-    private void FollowPlayer() {
+    private void FollowPlayer()
+    {
         body.MovePosition(Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime));
+    }
+
+    public void DecreaseHealth()
+    {
+        health--;
+        if (health <= 0)
+            Destroy(gameObject);
     }
 }
