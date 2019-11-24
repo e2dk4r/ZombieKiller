@@ -14,17 +14,19 @@ public class Enemy : MonoBehaviour
 {
     public Transform player;
     public float speed = 2.0f;
-    public float stopBetweenMoves = 1.0f;
     public float seeRange = 3.0f;
     public float moveRange = 5f;
 
     private Vector3 moveTo;
     private bool moving = false;
     private float[] moveRangeArray = new float[4];
+
+    Animator animator;
     Rigidbody2D body;
 
     void Awake() {
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Start() {
@@ -43,17 +45,27 @@ public class Enemy : MonoBehaviour
         if (IsPlayerSeen()) {
             FollowPlayer();
             CalculateMoveRange();
-        } else {
-            if (!moving) {
-                CalculateRandomMovement();
-            } else
-                body.MovePosition(Vector2.MoveTowards(transform.position, moveTo, speed * Time.deltaTime));
 
+            var diff = player.position - transform.position;
+            diff.Normalize();
+            animator.SetFloat("Look X", diff.x);
+            animator.SetFloat("Look Y", diff.y);
+        } else {
             if (transform.position == moveTo) {
                 moving = false;
-                StartCoroutine(WaitForNextMove());
             }
+
+            if (!moving)
+                CalculateRandomMovement();
+            else
+                body.MovePosition(Vector3.MoveTowards(transform.position, moveTo, speed * Time.deltaTime));
+
+            var diff = moveTo - transform.position;
+            diff.Normalize();
+            animator.SetFloat("Look X", diff.x);
+            animator.SetFloat("Look Y", diff.y);
         }
+
     }
 
     bool IsPlayerSeen() {
@@ -76,10 +88,6 @@ public class Enemy : MonoBehaviour
             moveTo = (transform.position + RandomDirection());
 
         moving = true;
-    }
-
-    IEnumerator WaitForNextMove() {
-        yield return new WaitForSeconds(stopBetweenMoves);
     }
 
     private Vector3 RandomDirection() {
