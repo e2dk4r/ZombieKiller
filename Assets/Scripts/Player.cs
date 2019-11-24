@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -9,12 +10,40 @@ public class Player : MonoBehaviour
 
     Rigidbody2D body;
     Animator animator;
-    Vector2 lookDirection = new Vector2(1, 0);
 
+    private Vector2 lookDirection = new Vector2(1, 0);
+
+    private int health = 5;
+    private UnityEvent healthChanged;
+
+    public int Health
+    {
+        get { return health; }
+        set
+        {
+            health = value;
+            healthChanged.Invoke();
+        }
+    }
+
+#region Unity API
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
+        if (healthChanged == null)
+            healthChanged = new UnityEvent();
+
+        healthChanged.AddListener(OnHealthChanged);
+    }
+
+    void OnDisable()
+    {
+        healthChanged.RemoveAllListeners();
     }
 
     void Update()
@@ -37,6 +66,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             Launch();
     }
+#endregion
 
     void Launch()
     {
@@ -48,6 +78,14 @@ public class Player : MonoBehaviour
         animator.SetTrigger("Shoot");
     }
 
+    void OnHealthChanged()
+    {
+        Debug.Log(health);
+        if (Health == 0)
+        {
+            Debug.Log("Game over!!");
+        }
+    }
 }
 
 

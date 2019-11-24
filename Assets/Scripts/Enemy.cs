@@ -13,6 +13,7 @@ public enum Movement
 public class Enemy : MonoBehaviour
 {
     public int health = 3;
+    public int power = 1;
     public Transform player;
     public float speed = 2.0f;
     public float seeRange = 3.0f;
@@ -25,6 +26,7 @@ public class Enemy : MonoBehaviour
     Animator animator;
     Rigidbody2D body;
 
+#region Unity API
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -34,14 +36,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         CalculateMoveRange();
-    }
-
-    void CalculateMoveRange()
-    {
-        moveRangeArray[(int)Movement.Left] = transform.position.x - moveRange;
-        moveRangeArray[(int)Movement.Right] = transform.position.x + moveRange;
-        moveRangeArray[(int)Movement.Up] = transform.position.y + moveRange;
-        moveRangeArray[(int)Movement.Down] = transform.position.y - moveRange;
     }
 
     void Update()
@@ -75,6 +69,24 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        var player = collision.gameObject.GetComponent<Player>();
+        if (player != null)
+            player.Health -= power;
+    }
+
+#endregion
+
+    void CalculateMoveRange()
+    {
+        moveRangeArray[(int)Movement.Left] = transform.position.x - moveRange;
+        moveRangeArray[(int)Movement.Right] = transform.position.x + moveRange;
+        moveRangeArray[(int)Movement.Up] = transform.position.y + moveRange;
+        moveRangeArray[(int)Movement.Down] = transform.position.y - moveRange;
+    }
+
 
     bool IsPlayerSeen()
     {
