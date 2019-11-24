@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed = 3.0f;
+    public GameObject projectilePrefab;
 
     Rigidbody2D body;
     Animator animator;
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
@@ -32,6 +33,19 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Launch();
+    }
+
+    void Launch()
+    {
+        var projectileObject = Instantiate(projectilePrefab, body.position + lookDirection * .5f, Quaternion.identity);
+
+        Projectile projectile = projectileObject.GetComponent<Projectile>();
+        projectile.Launch(lookDirection, 600f);
+
+        animator.SetTrigger("Shoot");
     }
 
 }
