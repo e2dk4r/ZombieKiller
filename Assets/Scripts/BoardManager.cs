@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public static BoardManager instance = null;
     public GameObject buildingPrefab;
 
     public Transform player;
     public float maxDistanceFromCenter = 7f;
+
+    public GameObject[] enemyPrefabs;
 
     public Sprite[] groundSprites;
     public int maxWidth = 25;
@@ -18,6 +21,12 @@ public class BoardManager : MonoBehaviour
     private Grid<Tile> grid;
 
     #region Unity API
+
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
 
     void Start()
     {
@@ -71,5 +80,29 @@ public class BoardManager : MonoBehaviour
 
             tile.gameObject.name = $"Ground {offset.x + x},{ offset.y + y}";
         });
+    }
+
+    Vector3 RandomLocation()
+    {
+        var newX = transform.position.x + Random.Range(5, 10);
+        var newY = transform.position.y + Random.Range(5, 10);
+
+        var direction = Random.Range(0, 4);
+        if (direction == 0) newX *= -1;
+        if (direction == 2) newY *= -1;
+
+        return new Vector3(newX, newY, 0);
+    }
+
+    public void SetupScene(int wave)
+    {
+        int enemyCount = (int)Mathf.Log(wave, 2f);
+
+        for (int i = 0; i != enemyCount; i++)
+        {
+            var location = RandomLocation();
+            var go = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            Instantiate(go, location, Quaternion.identity);
+        }
     }
 }
