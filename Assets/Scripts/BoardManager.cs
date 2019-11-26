@@ -11,6 +11,8 @@ public class BoardManager : MonoBehaviour
     public float maxDistanceFromCenter = 7f;
 
     public GameObject[] enemyPrefabs;
+    public GameObject healthBoxPrefab;
+    public GameObject ammoBoxPrefab;
 
     public Sprite[] groundSprites;
     public int maxWidth = 25;
@@ -96,6 +98,12 @@ public class BoardManager : MonoBehaviour
 
     public void SetupScene(int wave)
     {
+        SpawnEnemies(wave);
+        SpawnHealthPacks(wave);
+    }
+
+    private void SpawnEnemies(int wave)
+    {
         int enemyCount = (int)Mathf.Log(wave, 2f);
 
         for (int i = 0; i != enemyCount; i++)
@@ -105,4 +113,16 @@ public class BoardManager : MonoBehaviour
             Instantiate(go, location, Quaternion.identity);
         }
     }
+
+    private void SpawnHealthPacks(int wave)
+    {
+        int healthPackCount = (int)Mathf.Log(wave, 4f);
+
+        for (int i = 0; i != healthPackCount; i++)
+        {
+            var location = RandomLocation();
+            Instantiate(healthBoxPrefab, location, Quaternion.identity);
+        }
+    }
+
 }
