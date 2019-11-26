@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public int maxHealth = 10;
+    public int maxAmmo = 50;
     public float speed = 3.0f;
     public GameObject projectilePrefab;
     public ParticleSystem gunSmokeEffect;
