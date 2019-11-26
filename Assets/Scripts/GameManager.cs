@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,17 +9,40 @@ public class GameManager : MonoBehaviour
 
     public int wave = 8;
     public int enemyCount = 0;
+    public float waveDelayTime = 4.0f;
+
+    Text countdownText;
+    private float timer = 0f;
+    private bool countdownStarted = false;
 
     void Awake()
     {
         if (instance == null)
             instance = this;
+        countdownText = GameObject.Find("CountdownText").GetComponent<Text>();
     }
 
     void Update()
     {
-        Debug.Log(enemyCount);
-        if (enemyCount == 0)
+        if (enemyCount == 0 && !countdownStarted)
+        {
+            timer = waveDelayTime;
+            countdownStarted = true;
+            countdownText.enabled = countdownStarted;
+        }
+
+        if (countdownStarted)
+        {
+            if (timer <= 0)
+            {
+                countdownStarted = false;
+                countdownText.enabled = countdownStarted;
+            }
+            timer -= Time.deltaTime;
+            countdownText.text = $"Wave Starts in { (int)timer } seconds";
+        }
+
+        if (enemyCount == 0 && !countdownStarted)
             NextWave();
     }
 
