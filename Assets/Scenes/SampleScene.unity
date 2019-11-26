@@ -344,7 +344,8 @@ MonoBehaviour:
   - {fileID: 3804250752499524064, guid: 38ce793fe82a1ce40be4c13bc1b7bb2b, type: 3}
   healthBoxPrefab: {fileID: 3550643712706179890, guid: 7b9be16be94deff40bb86927f6ad2dee,
     type: 3}
-  ammoBoxPrefab: {fileID: 0}
+  ammoBoxPrefab: {fileID: 4640485680407114334, guid: 118061a131f56474aad7da3fa98c6eb0,
+    type: 3}
   groundSprites:
   - {fileID: 1304329097595725364, guid: b866a2a2d82ac894098c149f0cf029a5, type: 3}
   - {fileID: 498447969895038645, guid: b866a2a2d82ac894098c149f0cf029a5, type: 3}

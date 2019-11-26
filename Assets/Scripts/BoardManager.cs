@@ -95,6 +95,7 @@ public class BoardManager : MonoBehaviour
     {
         SpawnEnemies(wave);
         SpawnHealthPacks(wave);
+        SpawnAmmoPacks(wave);
     }
 
     private void SpawnEnemies(int wave)
@@ -120,4 +121,14 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    private void SpawnAmmoPacks(int wave)
+    {
+        int ammoPackCount = (int)Mathf.Log(wave, 3f) + Random.Range(0, 2);
+
+        for (int i = 0; i != ammoPackCount; i++)
+        {
+            var location = RandomLocation();
+            Instantiate(ammoBoxPrefab, location, Quaternion.identity);
+        }
+    }
 }
