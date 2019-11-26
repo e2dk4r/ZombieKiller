@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     public float speed = 3.0f;
     public GameObject projectilePrefab;
+    public ParticleSystem gunSmokeEffect;
 
     Rigidbody2D body;
     Animator animator;
@@ -94,6 +95,7 @@ public class Player : MonoBehaviour
         projectile.Launch(lookDirection, 600f);
 
         animator.SetTrigger("Shoot");
+        gunSmokeEffect.Play();
 
         Ammo--;
     }
