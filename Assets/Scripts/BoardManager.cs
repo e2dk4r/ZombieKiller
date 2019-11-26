@@ -45,11 +45,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void LateUpdate()
-    {
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z), Time.deltaTime * 3.0f);
-    }
-
     #endregion
 
     void InitializeGrid()
