@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
 
     Rigidbody2D body;
     Animator animator;
+    Text healthText;
 
     private Vector2 lookDirection = new Vector2(1, 0);
 
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        healthText = GameObject.Find("HealthText").GetComponent<Text>();
     }
 
     void Start()
@@ -39,6 +42,8 @@ public class Player : MonoBehaviour
             healthChanged = new UnityEvent();
 
         healthChanged.AddListener(OnHealthChanged);
+        healthChanged.AddListener(CheckGameOver);
+        OnHealthChanged();
     }
 
     void OnDisable()
@@ -80,11 +85,13 @@ public class Player : MonoBehaviour
 
     void OnHealthChanged()
     {
-        Debug.Log(health);
-        if (Health == 0)
-        {
-            Debug.Log("Game over!!");
-        }
+        healthText.text = $"Health: { Health }";
+    }
+
+    void CheckGameOver()
+    {
+        if (Health <= 0)
+            return;
     }
 }
 
