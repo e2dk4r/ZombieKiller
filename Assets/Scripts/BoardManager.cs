@@ -85,8 +85,8 @@ public class BoardManager : MonoBehaviour
         var newY = transform.position.y + Random.Range(5, 10);
 
         var direction = Random.Range(0, 4);
-        if (direction == 0) newX *= -1;
-        if (direction == 2) newY *= -1;
+        if (direction == 0) newX -= (newX - transform.position.x) * 2;
+        if (direction == 2) newY -= (newY - transform.position.y) * 2;
 
         return new Vector3(newX, newY, 0);
     }
@@ -117,18 +117,20 @@ public class BoardManager : MonoBehaviour
         for (int i = 0; i != healthPackCount; i++)
         {
             var location = RandomLocation();
-            Instantiate(healthBoxPrefab, location, Quaternion.identity);
+            var go = healthBoxPrefab;
+            Instantiate(go, location, Quaternion.identity);
         }
     }
 
     private void SpawnAmmoPacks(int wave)
     {
-        int ammoPackCount = (int)Mathf.Log(wave, 3f) + Random.Range(0, 2);
+        int ammoPackCount = (int)Mathf.Log(wave, 2f) + Random.Range(0, 2);
 
         for (int i = 0; i != ammoPackCount; i++)
         {
             var location = RandomLocation();
-            Instantiate(ammoBoxPrefab, location, Quaternion.identity);
+            var go = ammoBoxPrefab;
+            Instantiate(go, location, Quaternion.identity);
         }
     }
 }
