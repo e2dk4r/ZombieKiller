@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
     public int wave = 8;
     public int enemyCount = 0;
     public float waveDelayTime = 4.0f;
+    public bool gameOver = false;
 
     Text countdownText;
+    Text gameOverText;
     private float timer = 0f;
     private bool countdownStarted = false;
 
@@ -19,11 +21,21 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
+
         countdownText = GameObject.Find("CountdownText").GetComponent<Text>();
+        gameOverText = GameObject.Find("GameOverText").GetComponent<Text>();
+    }
+
+    void Start()
+    {
+        gameOverText.enabled = gameOver;
     }
 
     void Update()
     {
+        if (gameOver)
+            return;
+
         if (enemyCount == 0 && !countdownStarted)
         {
             timer = waveDelayTime;
@@ -50,5 +62,11 @@ public class GameManager : MonoBehaviour
     {
         wave++;
         BoardManager.instance.SetupScene(wave);
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        gameOverText.enabled = gameOver;
     }
 }

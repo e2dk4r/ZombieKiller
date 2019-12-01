@@ -68,6 +68,9 @@ public class Player : MonoBehaviour
     }
 
     void Update() {
+        if (GameManager.instance.gameOver)
+            return;
+
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
         var move = new Vector2(horizontal, vertical);
@@ -108,7 +111,7 @@ public class Player : MonoBehaviour
 
     void CheckGameOver() {
         if (Health <= 0)
-            return;
+            GameManager.instance.GameOver();
     }
 
     void OnAmmoChanged()
