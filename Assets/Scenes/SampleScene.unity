@@ -367,6 +367,7 @@ MonoBehaviour:
   wave: 4
   enemyCount: 0
   waveDelayTime: 4
+  gameOver: 0
 --- !u!1 &402047447
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +697,7 @@ GameObject:
   - component: {fileID: 843678556}
   - component: {fileID: 843678558}
   - component: {fileID: 843678557}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MinimapCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -757,7 +758,7 @@ Camera:
   far clip plane: 500
   field of view: 120
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 20
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
