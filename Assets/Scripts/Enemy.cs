@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public float speed = 2.0f;
     public float seeRange = 3.0f;
     public float moveRange = 5f;
+    public float attackDelay = 0.75f;
 
     private Transform player;
 
@@ -78,10 +79,24 @@ public class Enemy : MonoBehaviour
     {
         var player = collision.gameObject.GetComponent<Player>();
         if (player != null)
-            player.Health -= power;
+            StartCoroutine(Attack(player));
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        StopAllCoroutines();
     }
 
 #endregion
+
+    IEnumerator Attack(Player player)
+    {
+        while(true)
+        {
+            player.Health -= power;
+            yield return new WaitForSeconds(attackDelay);
+        }
+    }
 
     void CalculateMoveRange()
     {
