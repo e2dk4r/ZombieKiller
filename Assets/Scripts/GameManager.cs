@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
         if (gameOver)
             return;
 
+        Cursor.visible = false;
+
         waveText.text = $"Wave: { wave - 1 }";
 
         if (enemyCount == 0 && !countdownStarted)
