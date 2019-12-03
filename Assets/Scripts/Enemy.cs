@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     public float seeRange = 3.0f;
     public float moveRange = 5f;
     public float attackDelay = 0.75f;
+    public ParticleSystem bloodEffect;
 
     private Transform player;
 
@@ -94,6 +95,7 @@ public class Enemy : MonoBehaviour
         while(true)
         {
             player.Health -= power;
+            animator.SetTrigger("Attack");
             yield return new WaitForSeconds(attackDelay);
         }
     }
@@ -155,6 +157,7 @@ public class Enemy : MonoBehaviour
     public void DecreaseHealth()
     {
         health--;
+        bloodEffect.Play();
         if (health <= 0)
         {
             GameManager.instance.enemyCount--;
