@@ -35,7 +35,7 @@ public class PauseMenuScript : MonoBehaviour
 
     public void LoadMenu()
     {
-
+        Time.timeScale = 1f;
     }
 
     public void QuitGame()
