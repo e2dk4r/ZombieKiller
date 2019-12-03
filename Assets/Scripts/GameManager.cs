@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
         if (gameOver)
             return;
 
-        waveText.text = $"Wave: { wave-1 }";
-        
+        waveText.text = $"Wave: { wave - 1 }";
+
         if (enemyCount == 0 && !countdownStarted)
         {
             timer = waveDelayTime;
