@@ -348,6 +348,8 @@ MonoBehaviour:
     type: 3}
   ammoBoxPrefab: {fileID: 4640485680407114334, guid: 118061a131f56474aad7da3fa98c6eb0,
     type: 3}
+  mysteryBoxPrefab: {fileID: 6883297254005454306, guid: 6df462b496b88d449a00f1f8cb0c81ee,
+    type: 3}
   groundSprites:
   - {fileID: 1304329097595725364, guid: b866a2a2d82ac894098c149f0cf029a5, type: 3}
   maxWidth: 25

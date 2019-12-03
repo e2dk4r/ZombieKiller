@@ -13,6 +13,7 @@ public class BoardManager : MonoBehaviour
     public GameObject[] enemyPrefabs;
     public GameObject healthBoxPrefab;
     public GameObject ammoBoxPrefab;
+    public GameObject mysteryBoxPrefab;
 
     public Sprite[] groundSprites;
     public int maxWidth = 25;
@@ -96,6 +97,7 @@ public class BoardManager : MonoBehaviour
         SpawnEnemies(wave);
         SpawnHealthPacks(wave);
         SpawnAmmoPacks(wave);
+        SpawnMysteryPacks(wave);
     }
 
     private void SpawnEnemies(int wave)
@@ -106,6 +108,7 @@ public class BoardManager : MonoBehaviour
         {
             var location = RandomLocation();
             var go = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+
             Instantiate(go, location, Quaternion.identity);
         }
     }
@@ -130,6 +133,23 @@ public class BoardManager : MonoBehaviour
         {
             var location = RandomLocation();
             var go = ammoBoxPrefab;
+
+            Instantiate(go, location, Quaternion.identity);
+        }
+    }
+
+    private void SpawnMysteryPacks(int wave)
+    {
+        if (wave <= 0)
+            return;
+
+        int mysteryPackCount = Random.Range(1, 1);
+
+        if (mysteryPackCount == 1)
+        {
+            var location = RandomLocation();
+            var go = mysteryBoxPrefab;
+
             Instantiate(go, location, Quaternion.identity);
         }
     }
