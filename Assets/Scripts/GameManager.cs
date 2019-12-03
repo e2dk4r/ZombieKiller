@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     Text countdownText;
     Text gameOverText;
+    Text waveText;
     private float timer = 0f;
     private bool countdownStarted = false;
 
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
+        waveText = GameObject.Find("WaveText").GetComponent<Text>();
         countdownText = GameObject.Find("CountdownText").GetComponent<Text>();
         gameOverText = GameObject.Find("GameOverText").GetComponent<Text>();
     }
@@ -36,6 +38,8 @@ public class GameManager : MonoBehaviour
         if (gameOver)
             return;
 
+        waveText.text = $"Wave: { wave-1 }";
+        
         if (enemyCount == 0 && !countdownStarted)
         {
             timer = waveDelayTime;
