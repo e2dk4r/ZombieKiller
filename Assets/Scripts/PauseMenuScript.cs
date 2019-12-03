@@ -40,6 +40,6 @@ public class PauseMenuScript : MonoBehaviour
 
     public void QuitGame()
     {
-
+        Application.Quit();
     }
 }
