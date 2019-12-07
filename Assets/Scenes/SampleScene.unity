@@ -231,7 +231,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 13342223}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faa97283d973c7345b424ae0b2d44058, type: 3}
   m_Name: 
@@ -390,6 +390,8 @@ MonoBehaviour:
   enemyCount: 0
   waveDelayTime: 4
   gameOver: 0
+  gamePaused: 0
+  pauseMenuPanel: {fileID: 1790884836}
 --- !u!1 &402047447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,7 +1034,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 13342228}
+      - m_Target: {fileID: 371484077}
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -1161,7 +1163,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 13342228}
+      - m_Target: {fileID: 371484077}
         m_MethodName: LoadMenu
         m_Mode: 1
         m_Arguments:
@@ -1609,7 +1611,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 13342228}
+      - m_Target: {fileID: 371484077}
         m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:

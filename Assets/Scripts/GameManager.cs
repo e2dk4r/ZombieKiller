@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,9 @@ public class GameManager : MonoBehaviour
     public int enemyCount = 0;
     public float waveDelayTime = 4.0f;
     public bool gameOver = false;
-
+    public bool gamePaused = false;
+    public GameObject pauseMenuPanel;
+    
     Text countdownText;
     Text gameOverText;
     Text waveText;
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameOverText.enabled = gameOver;
+        pauseMenuPanel.SetActive(gamePaused);
     }
 
     void Update()
@@ -38,7 +42,15 @@ public class GameManager : MonoBehaviour
         if (gameOver)
             return;
 
-        Cursor.visible = false;
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            if (gamePaused)
+                ResumeGame();
+            else
+                PauseGame();
+        }
+
+        Cursor.visible = gamePaused;
 
         waveText.text = $"Wave: { wave - 1 }";
 
@@ -74,5 +86,34 @@ public class GameManager : MonoBehaviour
     {
         gameOver = true;
         gameOverText.enabled = gameOver;
+    }
+
+    public void PauseGame()
+    {
+        gamePaused = true;
+        Time.timeScale = 0f;
+        Cursor.visible = gamePaused;
+
+        pauseMenuPanel.SetActive(gamePaused);
+    }
+
+    public void ResumeGame()
+    {
+        gamePaused = false;
+        Time.timeScale = 1f;
+        Cursor.visible = gamePaused;
+
+        pauseMenuPanel.SetActive(gamePaused);
+    }
+
+    public void LoadMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
