@@ -23,9 +23,15 @@ public class Shop : MonoBehaviour
         foreach (var item in shopItems)
         {
             GameObject itemObject = Instantiate(shopItemPrefab, shopContainer);
-            itemObject.GetComponent<UIItem>().shopItem = item;
+
+            itemObject.GetComponent<Button>().onClick.AddListener(() => { OnShopItemClick(item); });
             itemObject.transform.Find("Image").GetComponent<Image>().sprite = item.sprite;
             itemObject.transform.Find("Price").GetComponent<Text>().text = $"${ item.cost }";
         }
+    }
+
+    private void OnShopItemClick(ShopItem item)
+    {
+        Inventory.Instance.AddInventoryItem(new InventoryItem { item = item, count = (item.countable) ? 1 : 0 });
     }
 }

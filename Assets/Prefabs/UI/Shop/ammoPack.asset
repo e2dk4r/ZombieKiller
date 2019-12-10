@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: ammoPack
   sprite: {fileID: 21300000, guid: 39979b26bc26df64c97b387a63488636, type: 3}
   cost: 20
+  countable: 1
