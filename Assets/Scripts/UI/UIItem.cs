@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class UIItem : MonoBehaviour
 {
-
-    void Start()
+    public ShopItem shopItem;
+    public void onClick()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log(shopItem.itemName);
+        Destroy(gameObject);
     }
 }

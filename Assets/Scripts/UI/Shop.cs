@@ -23,7 +23,7 @@ public class Shop : MonoBehaviour
         foreach (var item in shopItems)
         {
             GameObject itemObject = Instantiate(shopItemPrefab, shopContainer);
-
+            itemObject.GetComponent<UIItem>().shopItem = item;
             itemObject.transform.Find("Image").GetComponent<Image>().sprite = item.sprite;
             itemObject.transform.Find("Price").GetComponent<Text>().text = $"${ item.cost }";
         }

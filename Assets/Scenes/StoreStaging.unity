@@ -946,6 +946,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eaf5cee54cdc3e64d8234c7113f2fc81, type: 2}
   - {fileID: 11400000, guid: eaf5cee54cdc3e64d8234c7113f2fc81, type: 2}
   - {fileID: 11400000, guid: eaf5cee54cdc3e64d8234c7113f2fc81, type: 2}
+  - {fileID: 11400000, guid: 2f8eea5a715bc494f9326590cc5030cd, type: 2}
   shopContainer: {fileID: 222691536}
   shopItemPrefab: {fileID: 3966804998724302482, guid: 7edc380b0aa04374995def933ee96aaa,
     type: 3}
