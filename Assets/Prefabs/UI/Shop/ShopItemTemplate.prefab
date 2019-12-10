@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5703612882902015236}
   - component: {fileID: -180961753846944420}
-  - component: {fileID: 2462669200377385238}
   m_Layer: 5
   m_Name: ShopItemTemplate
   m_TagString: Untagged
@@ -82,7 +81,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2462669200377385238}
+      - m_Target: {fileID: 0}
         m_MethodName: onClick
         m_Mode: 1
         m_Arguments:
@@ -93,19 +92,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2462669200377385238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3966804998724302482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56190197790ae3a4c8f3f2ab0715b64d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shopItem: {fileID: 0}
 --- !u!1 &7647781843238474048
 GameObject:
   m_ObjectHideFlags: 0
