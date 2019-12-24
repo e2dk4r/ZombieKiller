@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -28,7 +29,7 @@ public class Keybindings : MonoBehaviour
 
     Dictionary<PlayerAction, KeyCode> keys = new Dictionary<PlayerAction, KeyCode>();
     public ConfigurableActionButton upButton, leftButton, rightButton, downButton, fireButton;
-    public Button saveButton;
+    public Button saveButton, mainMenuButton;
 
     private PlayerAction currentAction;
     private GameObject currentKey;
@@ -61,6 +62,7 @@ public class Keybindings : MonoBehaviour
             currentKey = fireButton.actionButton.gameObject;
         });
         saveButton.onClick.AddListener(() => { SaveKeys(); });
+        mainMenuButton.onClick.AddListener(() => { MainMenuScene(); });
     }
 
     private void Start()
@@ -88,8 +90,6 @@ public class Keybindings : MonoBehaviour
             {
                 keys[currentAction] = e.keyCode;
                 currentKey.transform.Find("Text").GetComponent<Text>().text = e.keyCode.ToString();
-                Debug.Log(currentAction.ToString() + " => " + e.keyCode.ToString());
-
                 currentAction = PlayerAction.None;
             }
         }
@@ -120,5 +120,10 @@ public class Keybindings : MonoBehaviour
     private void DisplayBinding(PlayerAction action, ConfigurableActionButton button)
     {
         button.actionButton.transform.Find("Text").GetComponent<Text>().text = keys[action].ToString();
+    }
+
+    public void MainMenuScene()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
