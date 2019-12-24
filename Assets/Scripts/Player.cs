@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -71,8 +72,8 @@ public class Player : MonoBehaviour
         if (GameManager.instance.gameOver)
             return;
 
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
+        var horizontal = GetHorizontal();
+        var vertical = GetVertical();
         var move = new Vector2(horizontal, vertical);
 
         body.MovePosition(body.position + move * speed * Time.fixedDeltaTime);
@@ -85,9 +86,10 @@ public class Player : MonoBehaviour
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(GetKeybinding(PlayerAction.Fire)))
             Launch();
     }
+
     #endregion
 
     void Launch() {
@@ -117,6 +119,22 @@ public class Player : MonoBehaviour
     void OnAmmoChanged()
     {
         ammoText.text = $"Ammo: { Ammo }";
+    }
+
+    private KeyCode GetKeybinding(PlayerAction action)
+    {
+        return (KeyCode)PlayerPrefs.GetInt(action.ToString());
+    }
+
+    float GetHorizontal()
+    {
+        return Input.GetKey(GetKeybinding(PlayerAction.Left)) ? -1f :
+            Input.GetKey(GetKeybinding(PlayerAction.Right)) ? 1f : 0f;
+    }
+    float GetVertical()
+    {
+        return Input.GetKey(GetKeybinding(PlayerAction.Down)) ? -1f :
+            Input.GetKey(GetKeybinding(PlayerAction.Up)) ? 1f : 0f;
     }
 }
 
