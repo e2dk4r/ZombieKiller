@@ -11,12 +11,12 @@ public class MainMenuScript : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("GameScene");
     }
 
-    public void InfoMenu()
+    public void KeyboardControlScene()
     {
-        
+        SceneManager.LoadScene("KeyboardControlScene");
     }
 
     public void QuitGame()
