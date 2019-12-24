@@ -9,20 +9,22 @@ using UnityEngine.UI;
 public class ConfigurableActionButton
 {
     public Button actionButton;
-    public Keybindings.PlayerAction action;
+    public PlayerAction action;
+}
+
+public enum PlayerAction
+{
+    None,
+    Left,
+    Right,
+    Up,
+    Down,
+    Fire
 }
 
 public class Keybindings : MonoBehaviour
 {
-    public enum PlayerAction
-    {
-        None,
-        Left,
-        Right,
-        Up,
-        Down,
-        Fire
-    }
+    
 
     Dictionary<PlayerAction, KeyCode> keys = new Dictionary<PlayerAction, KeyCode>();
     public ConfigurableActionButton upButton, leftButton, rightButton, downButton, fireButton;
@@ -63,11 +65,11 @@ public class Keybindings : MonoBehaviour
 
     private void Start()
     {
-        InitializeKey(PlayerAction.Up, KeyCode.W);
-        InitializeKey(PlayerAction.Left, KeyCode.A);
-        InitializeKey(PlayerAction.Right, KeyCode.D);
-        InitializeKey(PlayerAction.Down, KeyCode.S);
-        InitializeKey(PlayerAction.Fire, KeyCode.Space);
+        RetrieveKeys(PlayerAction.Up, KeyCode.W);
+        RetrieveKeys(PlayerAction.Left, KeyCode.A);
+        RetrieveKeys(PlayerAction.Right, KeyCode.D);
+        RetrieveKeys(PlayerAction.Down, KeyCode.S);
+        RetrieveKeys(PlayerAction.Fire, KeyCode.Space);
 
         DisplayBinding(PlayerAction.Up, upButton);
         DisplayBinding(PlayerAction.Left, leftButton);
@@ -102,9 +104,17 @@ public class Keybindings : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private void InitializeKey(PlayerAction action, KeyCode defaultKey)
+    private void RetrieveKeys(PlayerAction action, KeyCode defaultKey)
     {
         keys[action] = PlayerPrefs.HasKey(action.ToString()) ? (KeyCode)PlayerPrefs.GetInt(action.ToString()) : defaultKey;
+    }
+
+    public static void InitializePlayerAction(PlayerAction action, KeyCode defaultKey)
+    {
+        if (PlayerPrefs.HasKey(action.ToString()))
+            return;
+
+        PlayerPrefs.SetInt(action.ToString(), (int)defaultKey);
     }
 
     private void DisplayBinding(PlayerAction action, ConfigurableActionButton button)
