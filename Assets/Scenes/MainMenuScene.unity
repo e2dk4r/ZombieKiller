@@ -377,7 +377,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: INFO
+  m_Text: Controls
 --- !u!222 &710962274
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 1161439430}
   - component: {fileID: 1161439429}
   m_Layer: 5
-  m_Name: InfoButton
+  m_Name: ControlButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -546,7 +546,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 462545217}
-        m_MethodName: InfoMenu
+        m_MethodName: KeyboardControlScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
