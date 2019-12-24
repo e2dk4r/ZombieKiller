@@ -1,52 +1,94 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[Serializable]
+public class ConfigurableActionButton
+{
+    public Button actionButton;
+    public Keybindings.PlayerAction action;
+}
+
 public class Keybindings : MonoBehaviour
 {
-    Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
-    public Button upButton, leftButton, rightButton, downButton, fireButton, saveButton;
+    public enum PlayerAction
+    {
+        None,
+        Left,
+        Right,
+        Up,
+        Down,
+        Fire
+    }
 
+    Dictionary<PlayerAction, KeyCode> keys = new Dictionary<PlayerAction, KeyCode>();
+    public ConfigurableActionButton upButton, leftButton, rightButton, downButton, fireButton;
+    public Button saveButton;
+
+    private PlayerAction currentAction;
     private GameObject currentKey;
 
     private void Awake()
     {
-        upButton.onClick.AddListener(() => { currentKey = upButton.gameObject; });
-        leftButton.onClick.AddListener(() => { currentKey = leftButton.gameObject; });
-        rightButton.onClick.AddListener(() => { currentKey = rightButton.gameObject; });
-        downButton.onClick.AddListener(() => { currentKey = downButton.gameObject; });
-        fireButton.onClick.AddListener(() => { currentKey = fireButton.gameObject; });
+        upButton.actionButton.onClick.AddListener(() =>
+        {
+            currentAction = PlayerAction.Up;
+            currentKey = upButton.actionButton.gameObject;
+        });
+        leftButton.actionButton.onClick.AddListener(() =>
+        {
+            currentAction = PlayerAction.Left;
+            currentKey = leftButton.actionButton.gameObject;
+        });
+        rightButton.actionButton.onClick.AddListener(() =>
+        {
+            currentAction = PlayerAction.Right;
+            currentKey = rightButton.actionButton.gameObject;
+        });
+        downButton.actionButton.onClick.AddListener(() =>
+        {
+            currentAction = PlayerAction.Down;
+            currentKey = downButton.actionButton.gameObject;
+        });
+        fireButton.actionButton.onClick.AddListener(() =>
+        {
+            currentAction = PlayerAction.Fire;
+            currentKey = fireButton.actionButton.gameObject;
+        });
         saveButton.onClick.AddListener(() => { SaveKeys(); });
     }
 
     private void Start()
     {
-        keys[upButton.name] = PlayerPrefs.HasKey(upButton.name) ? (KeyCode)PlayerPrefs.GetInt(upButton.name) : KeyCode.W;
-        keys[leftButton.name] = PlayerPrefs.HasKey(leftButton.name) ? (KeyCode)PlayerPrefs.GetInt(leftButton.name) : KeyCode.A;
-        keys[rightButton.name] = PlayerPrefs.HasKey(rightButton.name) ? (KeyCode)PlayerPrefs.GetInt(rightButton.name) : KeyCode.D;
-        keys[downButton.name] = PlayerPrefs.HasKey(downButton.name) ? (KeyCode)PlayerPrefs.GetInt(downButton.name) : KeyCode.S;
-        keys[fireButton.name] = PlayerPrefs.HasKey(fireButton.name) ? (KeyCode)PlayerPrefs.GetInt(fireButton.name) : KeyCode.Space;
+        InitializeKey(PlayerAction.Up, KeyCode.W);
+        InitializeKey(PlayerAction.Left, KeyCode.A);
+        InitializeKey(PlayerAction.Right, KeyCode.D);
+        InitializeKey(PlayerAction.Down, KeyCode.S);
+        InitializeKey(PlayerAction.Fire, KeyCode.Space);
 
-        upButton.transform.Find("Text").GetComponent<Text>().text = keys[upButton.name].ToString();
-        leftButton.transform.Find("Text").GetComponent<Text>().text = keys[leftButton.name].ToString();
-        rightButton.transform.Find("Text").GetComponent<Text>().text = keys[rightButton.name].ToString();
-        downButton.transform.Find("Text").GetComponent<Text>().text = keys[downButton.name].ToString();
-        fireButton.transform.Find("Text").GetComponent<Text>().text = keys[fireButton.name].ToString();
+        DisplayBinding(PlayerAction.Up, upButton);
+        DisplayBinding(PlayerAction.Left, leftButton);
+        DisplayBinding(PlayerAction.Right, rightButton);
+        DisplayBinding(PlayerAction.Down, downButton);
+        DisplayBinding(PlayerAction.Fire, fireButton);
     }
 
-        private void OnGUI()
+    private void OnGUI()
     {
-        if (currentKey != null)
+        if (currentAction != PlayerAction.None)
         {
             Event e = Event.current;
 
             if (e.isKey && e.keyCode != KeyCode.Escape)
             {
-                keys[currentKey.name] = e.keyCode;
+                keys[currentAction] = e.keyCode;
                 currentKey.transform.Find("Text").GetComponent<Text>().text = e.keyCode.ToString();
-                Debug.Log(currentKey.name + " => " + e.keyCode.ToString());
-                currentKey = null;
+                Debug.Log(currentAction.ToString() + " => " + e.keyCode.ToString());
+
+                currentAction = PlayerAction.None;
             }
         }
     }
@@ -55,8 +97,18 @@ public class Keybindings : MonoBehaviour
     {
         foreach (var k in keys)
         {
-            PlayerPrefs.SetInt(k.Key, (int)k.Value);
+            PlayerPrefs.SetInt(k.Key.ToString(), (int)k.Value);
         }
         PlayerPrefs.Save();
+    }
+
+    private void InitializeKey(PlayerAction action, KeyCode defaultKey)
+    {
+        keys[action] = PlayerPrefs.HasKey(action.ToString()) ? (KeyCode)PlayerPrefs.GetInt(action.ToString()) : defaultKey;
+    }
+
+    private void DisplayBinding(PlayerAction action, ConfigurableActionButton button)
+    {
+        button.actionButton.transform.Find("Text").GetComponent<Text>().text = keys[action].ToString();
     }
 }

@@ -1258,11 +1258,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ddee08037b1b243b1b7fd45e7c5d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upButton: {fileID: 417917107}
-  leftButton: {fileID: 2147404900}
-  rightButton: {fileID: 1609620392}
-  downButton: {fileID: 376433400}
-  fireButton: {fileID: 2027566328}
+  upButton:
+    actionButton: {fileID: 417917107}
+    action: 3
+  leftButton:
+    actionButton: {fileID: 2147404900}
+    action: 1
+  rightButton:
+    actionButton: {fileID: 1609620392}
+    action: 2
+  downButton:
+    actionButton: {fileID: 376433400}
+    action: 4
+  fireButton:
+    actionButton: {fileID: 2027566328}
+    action: 5
   saveButton: {fileID: 612407657}
 --- !u!4 &863302413
 Transform:
