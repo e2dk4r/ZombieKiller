@@ -33,6 +33,10 @@ public class Keybindings : MonoBehaviour
 
     private PlayerAction currentAction;
     private GameObject currentKey;
+    
+    public GameObject infoPanel;
+    private bool infoPanelShowing = false;
+    private float infoTimer = 2f;
 
     private void Awake()
     {
@@ -61,8 +65,15 @@ public class Keybindings : MonoBehaviour
             currentAction = PlayerAction.Fire;
             currentKey = fireButton.actionButton.gameObject;
         });
-        saveButton.onClick.AddListener(() => { SaveKeys(); });
+        saveButton.onClick.AddListener(() => { SaveKeys(); ShowInfo(); });
         mainMenuButton.onClick.AddListener(() => { MainMenuScene(); });
+    }
+
+    private void ShowInfo()
+    {
+        infoPanelShowing = true;
+        infoTimer = 2f;
+        infoPanel.SetActive(infoPanelShowing);
     }
 
     private void Start()
@@ -78,6 +89,19 @@ public class Keybindings : MonoBehaviour
         DisplayBinding(PlayerAction.Right, rightButton);
         DisplayBinding(PlayerAction.Down, downButton);
         DisplayBinding(PlayerAction.Fire, fireButton);
+    }
+
+    private void Update()
+    {
+        if (infoPanelShowing)
+        {
+            if (infoTimer <= 0)
+            {
+                infoPanelShowing = false;
+                infoPanel.SetActive(infoPanelShowing);
+            }
+            infoTimer -= Time.deltaTime;
+        }
     }
 
     private void OnGUI()
