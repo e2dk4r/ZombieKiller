@@ -32,6 +32,8 @@ public class MysteryPack : MonoBehaviour
                 {
                     player.Health++;
                     Destroy(gameObject);
+
+                    GameManager.instance.ShowMystery("+1 Health");
                 }
             } else
             {
@@ -39,6 +41,7 @@ public class MysteryPack : MonoBehaviour
                 {
                     player.Ammo += ammoRounds;
                     Destroy(gameObject);
+                    GameManager.instance.ShowMystery("+5 Ammo");
                 }
             }
         }
