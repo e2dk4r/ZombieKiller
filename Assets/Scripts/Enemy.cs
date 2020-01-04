@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 {
     public int health = 3;
     public int power = 1;
+    public int scorePoint = 10;
     public float speed = 2.0f;
     public float seeRange = 3.0f;
     public float moveRange = 5f;
@@ -161,6 +162,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             GameManager.instance.enemyCount--;
+            GameManager.instance.score += scorePoint;
             Destroy(gameObject);
         }
     }

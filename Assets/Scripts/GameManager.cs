@@ -10,16 +10,24 @@ public class GameManager : MonoBehaviour
 
     public int wave = 8;
     public int enemyCount = 0;
+    public int score = 0;
+    public int highScore = 0;
     public float waveDelayTime = 4.0f;
+    public float showMysteryBoxInfoTime = 2.0f;
     public bool gameOver = false;
     public bool gamePaused = false;
+    public bool newHighScore = false;
     public GameObject pauseMenuPanel;
     
     Text countdownText;
     Text gameOverText;
     Text waveText;
+    Text scoreText;
+    public Text mysteryBoxInfoText;
     private float timer = 0f;
+    private float textTimer = 0f;
     private bool countdownStarted = false;
+    private bool showTextCountdownStarted = false;
 
     void Awake()
     {
@@ -28,13 +36,20 @@ public class GameManager : MonoBehaviour
 
         waveText = GameObject.Find("WaveText").GetComponent<Text>();
         countdownText = GameObject.Find("CountdownText").GetComponent<Text>();
+        scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+        mysteryBoxInfoText = GameObject.Find("MysteryBoxInfoText").GetComponent<Text>();
         gameOverText = GameObject.Find("GameOverText").GetComponent<Text>();
     }
 
     void Start()
     {
         gameOverText.enabled = gameOver;
+        mysteryBoxInfoText.enabled = false;
         pauseMenuPanel.SetActive(gamePaused);
+
+        if (!PlayerPrefs.HasKey("highScore"))
+            PlayerPrefs.SetInt("highScore", 0);
+        highScore = PlayerPrefs.GetInt("highScore");
     }
 
     void Update()
@@ -53,6 +68,18 @@ public class GameManager : MonoBehaviour
         Cursor.visible = gamePaused;
 
         waveText.text = $"Wave: { wave - 1 }";
+        scoreText.text = $"Score: { score }";
+
+        
+        if (showTextCountdownStarted)
+        {
+            if (textTimer <= 0)
+            {
+                showTextCountdownStarted = false;
+                mysteryBoxInfoText.enabled = showTextCountdownStarted;
+            }
+            textTimer -= Time.deltaTime;
+        }
 
         if (enemyCount == 0 && !countdownStarted)
         {
@@ -82,10 +109,31 @@ public class GameManager : MonoBehaviour
         BoardManager.instance.SetupScene(wave);
     }
 
+    public void ShowMystery(string text)
+    {
+        mysteryBoxInfoText.text = text;
+
+        showTextCountdownStarted = true;
+        mysteryBoxInfoText.enabled = showTextCountdownStarted;
+        textTimer = showMysteryBoxInfoTime;
+    }
+
     public void GameOver()
     {
         gameOver = true;
         gameOverText.enabled = gameOver;
+
+        gamePaused = true;
+        Time.timeScale = 0f;
+        Cursor.visible = gamePaused;
+
+        if (score > highScore)
+        {
+            PlayerPrefs.SetInt("highScore", score);
+            newHighScore = true;
+        }
+
+        SceneManager.LoadScene("GameOverScene");
     }
 
     public void PauseGame()
