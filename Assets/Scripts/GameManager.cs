@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
         if (score > highScore)
         {
             PlayerPrefs.SetInt("highScore", score);
+            highScore = score;
             newHighScore = true;
         }
 
